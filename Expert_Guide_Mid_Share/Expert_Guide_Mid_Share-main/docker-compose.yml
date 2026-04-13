@@ -1,0 +1,67 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: Expert_Guide_Backend
+    ports:
+      - "5001:5001"  
+    volumes:
+      - ./backend:/app
+      - user_data:/app/data/user_data
+      - institute_data:/app/data/institute_data  
+
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+      - PYTHONUNBUFFERED=1  
+    command: python app.py  
+    depends_on:
+      db:
+        condition: service_healthy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: Expert_Guide_Frontend
+    ports:
+      - "3000:5173"  
+    volumes:
+      - ./frontend:/app  
+      - /app/node_modules  
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:5001
+    command: npm run dev -- --host 
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'expert_guide_DB'
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    container_name: Expert_Guide_Database
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+volumes:
+  db_data:
+  user_data:  
+  institute_data:
