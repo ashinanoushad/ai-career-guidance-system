@@ -1,108 +1,67 @@
-🚀 AI-Assisted Career Guidance System
+# AI Career Guidance System
 
-📌 Overview
+An AI-powered career guidance web application designed to help students explore career paths, take assessments, and get personalized advice through an intelligent chatbot. Built with a modern full-stack architecture and containerized with Docker.
 
-The AI-Assisted Career Guidance System is a full-stack web application that recommends suitable career paths based on user responses to a structured questionnaire.
+## Features
 
-The system combines:
+- 🤖 **AI Career Chatbot** — Conversational career advisor powered by Google Gemini 2.0 Flash
+- 🧠 **Career Assessment** — Questionnaire-based career path recommendation engine
+- 🔐 **Facial Recognition Login** — Secure biometric authentication using face recognition and MTCNN
+- 👤 **User Dashboard** — Profile management, complaint submission, and facial data management
+- 🛡️ **Admin Dashboard** — Manage users, careers, questions, and user complaints
+- 🔒 **Session & Role Management** — Role-based access control (Student / Admin)
+- 🐳 **Dockerized Deployment** — Full multi-container setup via Docker Compose
 
-Generative AI (Google Gemini API) for reasoning
-Rule-based validation for reliability
+## Tech Stack
 
-Unlike typical AI systems, this project ensures that the output is validated and controlled, making it more dependable for real-world usage.
+| Layer | Technology |
+|---|---|
+| Frontend | React (Vite), IBM Carbon Design System |
+| Backend | Flask, Flask-Sockets (WebSocket) |
+| AI / ML | Google Gemini 2.0 Flash, face-recognition, MTCNN, TensorFlow |
+| Database | MySQL + SQLAlchemy |
+| DevOps | Docker, Docker Compose |
 
-🎯 Objective
+## Getting Started
 
-To help users make informed career decisions by:
+### Prerequisites
+- Docker & Docker Compose installed
+- Google Gemini API key
 
-Analyzing responses to 30 structured questions
-Generating AI-based career recommendations
-Ensuring output validity using a predefined dataset
+### Run
 
-🧠 System Workflow
-
-
-User answers 30 questions
-Responses are sent to the backend
-Backend constructs a structured prompt
-Prompt is sent to Google Gemini API
-Gemini generates a career recommendation
-System validates output against career dataset
-If valid → displayed to user
-If invalid → system re-prompts AI
-⚙️ Architecture
-Frontend (React) → Handles user interaction
-Backend (Flask) → Processes logic and API calls
-AI Layer (Gemini API) → Generates recommendations
-Database (MySQL) → Stores career dataset
-
-👉 The system follows a client-server architecture with a clear separation of concerns.
-
-
-🎯 Key Features
-
-
-✅ AI-assisted career recommendation
-✅ Prompt engineering for controlled AI output
-✅ Validation layer for accuracy
-✅ Interactive user interface
-✅ Backend service-based structure
-✅ AI chatbot for additional guidance
-🛠️ Tech Stack
-Frontend
-React.js
-HTML, CSS, JavaScript
-Backend
-Flask (Python)
-REST APIs
-AI Integration
-Google Gemini API
-Database
-MySQL
-Deployment
-Docker & Docker Compose
-
-
-📂 Project Structure
-
-backend/    → API routes, services, AI integration, validation  
-frontend/   → User interface (React components)  
-database/   → SQL scripts and dataset  
-⚙️ Setup Instructions
-1. Clone the repository
+```bash
 git clone https://github.com/ashinanoushad/ai-career-guidance-system.git
 cd ai-career-guidance-system
-2. Install dependencies
-npm install
-3. Run the project
-npm start
+docker compose up --build
+```
 
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:5001 |
+| MySQL | localhost:3306 |
 
-🧪 Core Concepts Used
+### Database Setup
+Run the provided SQL files to seed initial data:
+```bash
+# Inside MySQL container or client
+source add_careers_query.txt
+source add_questions_query.txt
+```
 
-Prompt Engineering
-REST API Design
-Client-Server Architecture
-Validation Logic
-AI + Rule-Based Hybrid System
+## Project Structure
 
-
-⚠️ Limitations
-
-Depends on external AI (Gemini API)
-Output quality depends on prompt design
-May require multiple attempts for valid results
-
-
-🚀 Future Improvements
-
-Improve prompt accuracy
-Add user authentication
-Store user history
-Provide multiple career suggestions
-Integrate custom ML model
-
-
-👩‍💻 Author
-
-Ashina Noushad
+```
+├── backend/
+│   ├── api/            # Flask routes & WebSocket handlers
+│   ├── db/             # SQLAlchemy models & DB config
+│   ├── services/       # Business logic (AI, face lock, assessment, user, admin)
+│   └── app.py          # App entry point
+├── frontend/
+│   └── src/
+│       ├── components/ # Reusable UI components (AI chatbot widget)
+│       ├── pages/      # User & admin pages
+│       └── services/   # WebSocket service
+└── docker-compose.yml
+```
